@@ -21,6 +21,8 @@ public class Game extends GraphicsProgram {
     public final int APPLICATION_WIDTH = 400;
     public final int APPLICATION_HEIGHT = 600;
 
+    public final int BULLET_RADIUS = 18;
+
     /* Runs the Bubble Shooter */
     public void run() {
         setup();
@@ -28,7 +30,25 @@ public class Game extends GraphicsProgram {
     }
 
     private void build() {
+        addGun();
+        generateBullet();
+    }
 
+    private void generateBullet() {
+        bullet = new GOval(BULLET_RADIUS*2, BULLET_RADIUS*2);
+        bullet.setFilled(true);
+        bullet.setColor(Color.red);
+        double x = gun.getX() + gun.getWidth()/2 - bullet.getWidth()/2;
+        double y = gun.getY() - bullet.getHeight()/2;
+        add(bullet, x, y);
+        bullet.sendBackward();
+    }
+
+    private void addGun() {
+        gun = new GImage("gun.png");
+        double x = (double)APPLICATION_WIDTH/2 - gun.getWidth()/2;
+        double y = APPLICATION_HEIGHT - gun.getHeight()/2;
+        add(gun, x, y);
     }
 
     private void setup() {
@@ -38,5 +58,8 @@ public class Game extends GraphicsProgram {
         GImage bg = new GImage("bg.png");
         add(bg);
     }
+
+    GImage gun;
+    GOval bullet;
 
 }
